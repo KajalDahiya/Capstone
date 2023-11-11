@@ -22,9 +22,9 @@ export class AddNewProductComponent implements OnInit {
     productDescription: "",
     productDiscountedPrice: 0,
     productActualPrice: 0,
-    subscribe: function (arg0: (response: Product) => void, arg1: (error: HttpErrorResponse) => void): Product {
-      throw new Error('Function not implemented.');
-    },
+    // subscribe: function (arg0: (response: Product) => void, arg1: (error: HttpErrorResponse) => void): Product {
+    //   throw new Error('Function not implemented.');
+    // },
     productImages: []
   }
 
