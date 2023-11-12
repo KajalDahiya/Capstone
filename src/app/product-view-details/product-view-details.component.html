@@ -1,0 +1,71 @@
+<!-- <div class="container" mt-5>
+    <div class="row">
+        <div class="col-6">
+            <div class="card image-container">
+                <img [src]="product.productImages[selectedProductIndex].url" class="product-zoom-image">
+                
+            </div>
+            <mat-grid-list cols="3" gutterSize="10" rowHeight="1:1">
+                <mat-grid-tile *ngFor="let file of product.productImages; let i=index;" (click)="changeIndex(i)" style="border:1px solid lightgray; cursor: pointer;">
+                    <img [src]="file.url" height="100px" >
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+        <div class="col-6">
+            <div class="product-information">
+
+                <div class="mt-3">
+                    <h2>{{product?.productName}}</h2>
+                </div>
+                <div class="mt-3">
+                    Description:<br>
+                    {{product?.productDescription}}
+                </div>
+                <div class="mt-3">
+                    <b>Rs. {{product.productDiscountedPrice}}</b>&nbsp; &nbsp;<b style="text-decoration: line-through;">{{product.productActualPrice}}</b>
+                </div>
+                <div>
+                    <button mat-raised-button color="warn">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> -->
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-6">
+        <div class="card image-container">
+          <!-- Use the safe navigation operator to handle possible undefined -->
+          <img [src]="product?.productImages?.[selectedProductIndex]?.url" class="product-zoom-image">
+
+        </div>
+        <mat-grid-list cols="3" gutterSize="10" rowHeight="1:1">
+          <mat-grid-tile *ngFor="let file of product?.productImages; let i = index;" (click)="changeIndex(i)" style="border:1px solid lightgray; cursor: pointer;">
+            <!-- Use the safe navigation operator to handle possible undefined -->
+            <img [src]="file?.url" height="100px">
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div class="col-6">
+        <div class="product-information">
+          <div class="mt-3">
+            <!-- Use the safe navigation operator to handle possible undefined -->
+            <h2>{{ product?.productName }}</h2>
+          </div>
+          <div class="mt-3">
+            Description:<br>
+            <!-- Use the safe navigation operator to handle possible undefined -->
+            {{ product?.productDescription }}
+          </div>
+          <div class="mt-3">
+            <b>Rs. {{ product?.productDiscountedPrice }}</b>&nbsp; &nbsp;<b style="text-decoration: line-through;">{{ product?.productActualPrice }}</b>
+          </div>
+          <div>
+            <button mat-raised-button color="warn">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
