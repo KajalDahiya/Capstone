@@ -25,7 +25,8 @@ export class AddNewProductComponent implements OnInit {
     // subscribe: function (arg0: (response: Product) => void, arg1: (error: HttpErrorResponse) => void): Product {
     //   throw new Error('Function not implemented.');
     // },
-    productImages: []
+    productImages: [],
+    productId: 0
   }
 
   constructor(private productService: ProductService, 
