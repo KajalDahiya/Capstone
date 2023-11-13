@@ -55,6 +55,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../_services/product.service';
 import { Product } from '../_model/product.model';
+import { ShowProductDetailsComponent } from '../show-product-details/show-product-details.component';
 
 @Component({
   selector: 'app-buy-product',
@@ -62,6 +63,9 @@ import { Product } from '../_model/product.model';
   styleUrls: ['./buy-product.component.css']
 })
 export class BuyProductComponent implements OnInit {
+parseFloat(arg0: string): number {
+throw new Error('Method not implemented.');
+}
 
   isSingleProductCheckout: string = '';
   productDetails: Product[] = [] ;
@@ -101,6 +105,36 @@ export class BuyProductComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+  getQuantityForProduct(productId: number){
+    const filteredProduct=this.orderDetails.orderProductQuantityList.filter(
+      (productQuantity)=>productQuantity.productId===productId
+    );
+    return filteredProduct[0].quantity;
+  }
+  getCalculatedTotal(productId: any,productDiscountedPrice: any){
+    const filteredProduct=this.orderDetails.orderProductQuantityList.filter(
+      (productQuantity)=> productQuantity.productId===productId
+    );
+    return filteredProduct[0].quantity=productDiscountedPrice;
+ 
+  }
+
+  onQuantityChanged(quantity: number,productId: number){
+    this.orderDetails.orderProductQuantityList.filter(
+      (orderProduct)=>orderProduct.productId===productId
+    )[0].quantity=quantity;
+  }
+
+  getCalculatedGrandTotal(){
+    let grandTotal=0;
+    this.orderDetails.orderProductQuantityList.forEach(
+      (productQuantity)=>{
+        const price=this.productDetails.filter(product=>product.productId===productQuantity.productId)[0].productDiscountedPrice;
+        grandTotal=grandTotal+price*productQuantity.quantity;
+      }
+    );
+      return grandTotal;
   }
 }
 
