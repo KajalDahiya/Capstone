@@ -49,10 +49,10 @@
 //   }
 // }
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { OrderDetails } from '../_model/order-details.model';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../_services/product.service';
 import { Product } from '../_model/product.model';
 import { ShowProductDetailsComponent } from '../show-product-details/show-product-details.component';
@@ -63,11 +63,12 @@ import { ShowProductDetailsComponent } from '../show-product-details/show-produc
   styleUrls: ['./buy-product.component.css']
 })
 export class BuyProductComponent implements OnInit {
+  router: any;
 parseFloat(arg0: string): number {
 throw new Error('Method not implemented.');
 }
 
-  isSingleProductCheckout: string = '';
+  isSingleProductCheckout: boolean = false;
   productDetails: Product[] = [] ;
 
   orderDetails: OrderDetails = {
@@ -75,37 +76,44 @@ throw new Error('Method not implemented.');
     fullAddress: '',
     contactNumber: '',
     alternateContactNumber: '',
-    
-    orderProductQuantityList: []
+
+    orderProductQuantityList: [],
+    isSingleProductCheckout: false
   }
 
-  constructor(private activatedRoute: ActivatedRoute, private productService: ProductService) {}
+  constructor(private activatedRoute: ActivatedRoute, private productService: ProductService,
+    private injector: Injector,) {}
 
-  ngOnInit(): void {
+    ngOnInit(): void {
+      this.productDetails = this.activatedRoute.snapshot.data['productDetails'];
     
-    this.productDetails = this.activatedRoute.snapshot.data['productDetails'];
+      // Cast isSingleProductCheckout to boolean
+      this.isSingleProductCheckout = this.activatedRoute.snapshot.paramMap.get("isSingleProductCheckout") === 'true';
     
-    this.productDetails.forEach(
-      x => this.orderDetails.orderProductQuantityList.push(
-        { productId: x.productId, quantity: 1 }
-      )
-    );
-
-    console.log(this.productDetails);
-    console.log(this.orderDetails);
-  }
-
+      this.productDetails.forEach(
+        x => this.orderDetails.orderProductQuantityList.push(
+          {productId: x.productId, quantity: 1}
+        )
+      );
+    
+      console.log(this.productDetails);
+      console.log(this.orderDetails);
+    }
+    
   public placeOrder(orderForm: NgForm) {
-    this.productService.placeOrder(this.orderDetails, this.isSingleProductCheckout).subscribe(
+    this.productService.placeOrder(this.orderDetails, this.isSingleProductCheckout.toString()).subscribe(
       (resp) => {
         console.log(resp);
         orderForm.reset();
+        this.router.navigate(["/orderConfirm"]);
+        
       },
       (err) => {
         console.log(err);
       }
     );
   }
+
   getQuantityForProduct(productId: number){
     const filteredProduct=this.orderDetails.orderProductQuantityList.filter(
       (productQuantity)=>productQuantity.productId===productId

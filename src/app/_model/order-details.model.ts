@@ -5,5 +5,6 @@ export interface OrderDetails{
      fullAddress:string;
      contactNumber:string;
     alternateContactNumber:string;
+    isSingleProductCheckout: boolean;
      orderProductQuantityList:OrderQuantity[];
 }
